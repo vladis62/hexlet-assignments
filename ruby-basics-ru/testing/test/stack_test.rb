@@ -5,35 +5,48 @@ require_relative '../lib/stack'
 
 class StackTest < Minitest::Test
   # BEGIN
-  def setup
-    @stack = Stack.new
+  def test_push!
+    stack = Stack.new
+
+    stack.push! 1
+    assert_equal stack.to_a.length, 1
+
+    stack.push! 2
+    assert_equal stack.to_a.length, 2
+
+    assert_equal stack.pop!, 2
   end
 
-  def test_push
-    @stack.push!(1)
-    @stack.push!(2)
-    assert { @stack.to_a == [1, 2] }
+  def test_pop!
+    stack = Stack.new
+
+    stack.push! 2
+    assert_equal stack.pop!, 2
+
+    stack.push! 1
+    assert_equal stack.pop!, 1
   end
 
-  def test_pop
-    @stack.push!(1)
-    @stack.push!(2)
-    element = @stack.pop!
-    assert { element == 2 }
-    assert { @stack.to_a == [1] }
+  def test_clear!
+    stack = Stack.new
+
+    stack.push! 1
+    stack.push! 2
+
+    stack.clear!
+
+    assert stack.empty? == true
   end
 
-  def test_clear
-    @stack.push!(1)
-    @stack.push!(2)
-    @stack.clear!
-    assert { @stack.empty? }
-  end
+  def test_empty!
+    stack = Stack.new
 
-  def test_empty
-    assert { @stack.empty? }
-    @stack.push!(1)
-    refute { @stack.empty? }
+    stack.push! 1
+    stack.push! 2
+
+    stack.clear!
+
+    assert stack.empty? == true
   end
   # END
 end
