@@ -1,7 +1,25 @@
-POST /upload HTTP/1.1
+PATCH /comments/3 HTTP/1.1
 Host: hexlet.local
-Content-Type: text/plain
-Content-Length: 15
+Content-Type: application/json
+Content-Length: 20
+Connection: close
+{ "text":"I got it!" }
 
 my request body
 
+telnet localhost 8080
+
+curl --header "Content-Type: application/json" localhost:8080/courses
+
+curl localhost:8080/courses \
+-H "Content-Type: application/json"
+
+curl -X POST \
+    -H 'Content-Type: application/json-rpc' \
+    -d '{"jsonrpc":"2.0","id":1,"method":"greet","params":{"name": "Tota"}}' \
+    http://localhost:8080/json-rpc
+
+curl -X POST \
+    -H 'Content-Type: application/json-rpc' \
+    -d '{"jsonrpc":"2.0","id":1,"method":"get_users"}' \
+    http://localhost:8080/json-rpc
