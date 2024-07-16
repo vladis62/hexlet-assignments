@@ -2,6 +2,7 @@
 
 # BEGIN
 class Url
+
   include Comparable
 
   attr_accessor :scheme, :host, :port
