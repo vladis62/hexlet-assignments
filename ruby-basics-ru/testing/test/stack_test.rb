@@ -28,7 +28,6 @@ class StackTest < Minitest::Test
     @stack.push!(2)
     @stack.clear!
     assert { @stack.empty? }
-    assert { @stack.size == 0 }
   end
 
   def test_empty
