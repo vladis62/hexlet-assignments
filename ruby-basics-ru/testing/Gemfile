@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+# BEGIN
+
+group :test do
+  gem 'minitest'
+  gem 'minitest-power_assert'
+end
+
+# END
