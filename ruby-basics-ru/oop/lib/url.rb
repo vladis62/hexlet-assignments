@@ -1,41 +1,42 @@
-# frozen_string_literal: true
+require 'uri'
+require 'forwardable'
 
-# BEGIN
 class Url
+  extend Forwardable
 
-  include Comparable
+  def_delegators :@uri, :scheme, :host, :port
 
-  attr_accessor :scheme, :host, :port
-
-  def initialize(address)
-    uri = URI(address)
-
-    @scheme = uri.scheme
-    @host = uri.host
-    @port = uri.port
-    @path = uri.path
-
-    uri_query = uri.query
-    decoded_query = uri_query.nil? ? [] : URI.decode_www_form(uri_query)
-    @query = decoded_query.to_h.transform_keys &:to_sym
+  def initialize(url)
+    @uri = URI.parse(url)
+    @query_params = parse_query(@uri.query)
   end
 
   def query_params
-    @query
+    @query_params
   end
 
-  def query_param(key, value = nil)
-    @query[key] || value
+  def query_param(key, default_value = nil)
+    @query_params[key] || default_value
   end
 
-  def <=>(other)
-    precedence <=> other.precedence
+  def ==(other)
+    return false unless other.is_a?(Url)
+    scheme == other.scheme &&
+      host == other.host &&
+      port == other.port &&
+      query_params_sorted == other.query_params_sorted
   end
 
   protected
 
-  def precedence
-    [scheme, host, port, query_params]
+  def query_params_sorted
+    @query_params.sort.to_h
+  end
+
+  private
+
+  def parse_query(query)
+    return {} if query.nil? || query.empty?
+    query.split('&').map { |pair| pair.split('=') }.to_h
   end
 end
-# END
